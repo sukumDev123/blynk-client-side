@@ -17,6 +17,14 @@
   color: white;
 }
 
+.err {
+  color: red;
+  font-weight: bold;
+}
+.success {
+  color: rgb(34, 49, 0);
+  font-weight: bold;
+}
 .App-link {
   color: #09d3ac;
 }
