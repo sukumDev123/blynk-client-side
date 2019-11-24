@@ -5,6 +5,9 @@ import {
   updateStatusOfSwitch
 } from '../../services/fetch-datas'
 import { ADDMESSAGE } from '../redux/message-store'
+import ShowInformationThisSwitch from './ShowInformationThisSwitch'
+import ButtonSwitch from './ButtonSwitch'
+
 export default class SwitchComponent extends React.Component {
   componentWillMount() {
     this.handleDataFromApi()
@@ -27,6 +30,12 @@ export default class SwitchComponent extends React.Component {
           this.setState({
             information: { status: datas.statusPins },
             pins: datas.pins
+          })
+        } else {
+          this.props.messageStore.dispatch({
+            type: ADDMESSAGE.type,
+            payload: 'it have not pins.',
+            classEle: 'err'
           })
         }
       })
@@ -65,52 +74,41 @@ export default class SwitchComponent extends React.Component {
     btnClass[index] = 'clicked_active'
     this.setState({ showInfomationPosition: index, btnOnClicked: btnClass })
   }
-  handleText = status => (status === '0' ? 'Closed switch' : 'Opened switch')
-  handleTextBtn = status => (status === '1' ? 'Close' : 'Open')
+
   render() {
+    const {
+      pins,
+      information,
+      showInfomationPosition,
+      btnOnClicked
+    } = this.state
     return (
       <div className="switch-div">
         <div className="switch-button-div">
           <div className="switch-button">
-            {this.state.pins.map((d, ind) => (
-              <button
-                key={d}
-                className={
-                  `${this.state.btnOnClicked[ind]} ` +
-                  (this.state.information.status[ind] === '1'
-                    ? 'opened'
-                    : 'closed')
-                }
-                onClick={this.checkShowSwitchInformation.bind(this, ind)}
-              >
-                My Switch Pin's {d}
-              </button>
+            {pins.map((d, ind) => (
+              <ButtonSwitch
+                key={ind}
+                pinVal={d}
+                status={information.status[ind]}
+                btnOnClicked={btnOnClicked[ind]}
+                checkShowSwitchInformation={this.checkShowSwitchInformation.bind(
+                  this,
+                  ind
+                )}
+              ></ButtonSwitch>
             ))}
           </div>
         </div>
         <div className="switch-show-state">
-          <h3>
-            The Switch pin's
-            {' ' + this.state.pins[this.state.showInfomationPosition]}
-          </h3>
-          <h5>
-            {' '}
-            {this.handleText(
-              this.state.information.status[this.state.showInfomationPosition]
-            )}
-          </h5>
-          <button
-            className="btn-switch-open"
-            onClick={this.openThisSwitch.bind(
+          <ShowInformationThisSwitch
+            pin={pins[showInfomationPosition]}
+            information={information.status[showInfomationPosition]}
+            openThisSwitch={this.openThisSwitch.bind(
               this,
-              this.state.showInfomationPosition
+              showInfomationPosition
             )}
-          >
-            {this.handleTextBtn(
-              this.state.information.status[this.state.showInfomationPosition]
-            )}{' '}
-            this switch?
-          </button>
+          />
         </div>
       </div>
     )
