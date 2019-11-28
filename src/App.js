@@ -9,13 +9,14 @@ class MessageWhenHave extends React.Component {
         const { message, status, classEle } = this.props.messageStore.getState()
         this.setState({ text: message, status: status, class: classEle })
       },
-      e => console.log({ e })
+      e => {
+        console.log({ e })
+      }
     )
-    console.log({ l: this.props.messageStore })
   }
   constructor(props) {
     super(props)
-    this.state = { text: 'test' }
+    this.state = { text: '' }
   }
   render() {
     return <div className={this.state.class}>{this.state.text}</div>
