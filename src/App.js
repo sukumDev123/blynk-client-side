@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import SwitchComponent from './components/switch/SwitchComponent'
-
+import ProjectSwitch from './components/project-switch/ProjectSwitch'
 class MessageWhenHave extends React.Component {
   componentWillMount() {
     this.props.messageStore.subscribe(
@@ -30,9 +30,12 @@ export default class App extends React.Component {
         <MessageWhenHave
           messageStore={this.props.messageStore}
         ></MessageWhenHave>
-        <SwitchComponent
-          messageStore={this.props.messageStore}
-        ></SwitchComponent>
+        <div className="component-2">
+          <SwitchComponent
+            messageStore={this.props.messageStore}
+          ></SwitchComponent>
+          <ProjectSwitch></ProjectSwitch>
+        </div>
       </div>
     )
   }

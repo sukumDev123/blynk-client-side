@@ -1,7 +1,10 @@
 .App {
   text-align: center;
 }
-
+.component-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
 .App-logo {
   height: 40vmin;
 }

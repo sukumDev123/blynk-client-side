@@ -2,7 +2,8 @@ import React from 'react'
 import './SwitchComponent.css'
 import {
   getDataFromAPIB,
-  updateStatusOfSwitch
+  updateStatusOfSwitch,
+  getAllInformationSwitch
 } from '../../services/fetch-datas'
 import { ADDMESSAGE } from '../redux/message-store'
 import ShowInformationThisSwitch from './ShowInformationThisSwitch'
@@ -11,6 +12,7 @@ import ButtonSwitch from './ButtonSwitch'
 export default class SwitchComponent extends React.Component {
   componentWillMount() {
     this.handleDataFromApi()
+    this.handleDataFromApiInformation()
   }
   constructor(props) {
     super(props)
@@ -19,9 +21,16 @@ export default class SwitchComponent extends React.Component {
       information: {
         status: []
       },
+      timeLatest: '',
+      datInfor: [],
       showInfomationPosition: 0,
       btnOnClicked: ['clicked_active', '', '', '']
     }
+  }
+  handleDataFromApiInformation = () => {
+    getAllInformationSwitch().then(datas => {
+      this.datInfor = datas
+    })
   }
   handleDataFromApi = () =>
     getDataFromAPIB()
@@ -69,10 +78,19 @@ export default class SwitchComponent extends React.Component {
       })
   }
   checkShowSwitchInformation(index) {
+    const dataInformation = this.datInfor.filter(
+      d => parseInt(d.name_switch) === this.state.pins[index]
+    )[0]
+
     //TODO this is to show informarion switch from index
     const btnClass = this.state.btnOnClicked.map(() => '')
     btnClass[index] = 'clicked_active'
-    this.setState({ showInfomationPosition: index, btnOnClicked: btnClass })
+
+    this.setState({
+      showInfomationPosition: index,
+      btnOnClicked: btnClass,
+      timeLatest: dataInformation.switch_time
+    })
   }
 
   render() {
@@ -80,6 +98,7 @@ export default class SwitchComponent extends React.Component {
       pins,
       information,
       showInfomationPosition,
+      timeLatest,
       btnOnClicked
     } = this.state
     return (
@@ -102,6 +121,7 @@ export default class SwitchComponent extends React.Component {
         </div>
         <div className="switch-show-state">
           <ShowInformationThisSwitch
+            timeLatest={timeLatest}
             pin={pins[showInfomationPosition]}
             information={information.status[showInfomationPosition]}
             openThisSwitch={this.openThisSwitch.bind(

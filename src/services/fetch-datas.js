@@ -3,6 +3,7 @@ const host = 'http://localhost:8080/api/bylink'
 function fetchGetData(d) {
   return Axios.get(`${host}/bylinkGet?status=${d}`)
 }
+
 function fetchPostData(status0or1, pinNumber) {
   return Axios({
     method: 'POST',
@@ -40,5 +41,32 @@ export function getDataFromAPIB() {
         })
       })
       .catch(e => rej(e))
+  })
+}
+
+function fetchProfile() {
+  return Axios({
+    method: 'GET',
+    url: `${host}/bylinkProfile`
+  })
+}
+export function getProfiles() {
+  return new Promise((res, rej) => {
+    fetchProfile()
+      .then(data => res(data.data))
+      .catch(err => rej(err))
+  })
+}
+
+const hostInformation = 'http://localhost:8080/api/information'
+export function fetchAllInformationSwitch() {
+  return Axios.get(`${hostInformation}/getAll`)
+}
+
+export function getAllInformationSwitch() {
+  return new Promise((res, rej) => {
+    fetchAllInformationSwitch()
+      .then(data => res(data.data.datas))
+      .catch(err => rej(err))
   })
 }
