@@ -59,7 +59,7 @@ export function getProfiles() {
 }
 
 const hostInformation = 'http://localhost:8080/api/information'
-export function fetchAllInformationSwitch() {
+function fetchAllInformationSwitch() {
   return Axios.get(`${hostInformation}/getAll`)
 }
 
@@ -67,6 +67,20 @@ export function getAllInformationSwitch() {
   return new Promise((res, rej) => {
     fetchAllInformationSwitch()
       .then(data => res(data.data.datas))
+      .catch(err => rej(err))
+  })
+}
+
+function fetchChangeStatusOnDataBase(switch_, status) {
+  return Axios.get(
+    `${hostInformation}/openSwitch?switch=${switch_}&status=${status}`
+  )
+}
+
+export function changeStatusInformation(switch_, status) {
+  return new Promise((res, rej) => {
+    fetchChangeStatusOnDataBase(switch_, status)
+      .then(data => res(data.data))
       .catch(err => rej(err))
   })
 }
