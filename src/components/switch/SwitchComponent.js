@@ -36,18 +36,7 @@ export default class SwitchComponent extends React.Component {
       })
     })
   }
-  checkStausOfSwitch = () => {
-    const pins = this.state.pins
-    const status = this.state.information.status.map(d =>
-      d == '0' ? 'close' : 'open'
-    )
-    if (status.length && pins.length) {
-      // const gg = pins.map((d, ind) => changeStatusInformation(d, status[ind]))
-      // Promise.all(gg).then(data => {
-      //
-      // })
-    }
-  }
+
   handleDataFromApi = () =>
     getDataFromAPIB()
       .then(datas => {
@@ -56,7 +45,6 @@ export default class SwitchComponent extends React.Component {
             information: { infor: [], status: datas.statusPins },
             pins: datas.pins
           })
-          // this.checkStausOfSwitch(datas)
           this.handleDataFromApiInformation()
         } else {
           this.props.messageStore.dispatch({

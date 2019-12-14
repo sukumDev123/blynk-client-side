@@ -44,10 +44,12 @@ export function getDataFromAPIB() {
   })
 }
 
+const hostInformation = 'http://localhost:8080/api/information'
+
 function fetchProfile() {
   return Axios({
     method: 'GET',
-    url: `${host}/bylinkProfile`
+    url: `${hostInformation}/getPinsValueAll`
   })
 }
 export function getProfiles() {
@@ -58,7 +60,6 @@ export function getProfiles() {
   })
 }
 
-const hostInformation = 'http://localhost:8080/api/information'
 function fetchAllInformationSwitch() {
   return Axios.get(`${hostInformation}/getAll`)
 }
